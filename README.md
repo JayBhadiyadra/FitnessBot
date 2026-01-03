@@ -190,6 +190,9 @@ User → Chat Interface → Conversation Flow → Data Extraction → Validation
 - **Validation**: All inputs are validated in real-time (positive numbers, valid ranges, required fields)
 - **Plan Modifications**: Users can modify plans through natural conversation - LLM suggests alternatives based on the actual plan data
 
+## Note
+- I have integrated the LnagChain agent in saperate branch but that is not working proper in free api so I have just added the code for reference.
+
 ## License
 
 This project is for interview/assignment purposes.
