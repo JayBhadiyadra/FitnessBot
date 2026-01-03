@@ -191,7 +191,7 @@ User → Chat Interface → Conversation Flow → Data Extraction → Validation
 - **Plan Modifications**: Users can modify plans through natural conversation - LLM suggests alternatives based on the actual plan data
 
 ## Note
-- I have integrated the LnagChain agent in saperate branch but that is not working proper in free api so I have just added the code for reference.
+- I have integrated the LangChain agent in saperate branch but that was not working proper with free Gemini api and getting 429 rate limit error, So I have just added the code for reference.
 
 ## License
 
