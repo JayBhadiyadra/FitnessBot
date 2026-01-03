@@ -4,6 +4,8 @@ A personalized diet and workout plan chatbot built with Python, FastAPI, and Pos
 
 ## Features
 
+- **LangChain Agent**: Powered by LangChain ReAct agent for intelligent conversation orchestration
+- **Tool-Based Architecture**: Uses LangChain tools for data collection, validation, and plan generation
 - **Conversational Data Collection**: Collects all required user information through natural chat interface
 - **Core Plan Generation**: Generates diet and workout plans using deterministic algorithms (no LLM)
 - **LLM Explanations**: Uses Gemini AI only for plan explanations and follow-up questions
@@ -15,7 +17,7 @@ A personalized diet and workout plan chatbot built with Python, FastAPI, and Pos
 ## Architecture
 
 ```
-User → Chat Interface → Conversation Flow → Data Extraction → Validation
+User → Chat Interface → LangChain Agent → Tools (Data Collection, Validation, Plan Generation)
                                                               ↓
                                               Plan Generation (Core Logic - No LLM)
                                                               ↓
@@ -25,6 +27,12 @@ User → Chat Interface → Conversation Flow → Data Extraction → Validation
                                                               ↓
                                               Follow-up Questions (LLM with Plan Context)
 ```
+
+**LangChain Agent Integration:**
+- Uses ReAct agent pattern with tool-based architecture
+- Tools handle: data validation, saving, completeness checking, and plan generation
+- Agent orchestrates conversation flow intelligently
+- Maintains conversation context and history
 
 ## Requirements
 
@@ -158,11 +166,10 @@ User → Chat Interface → Conversation Flow → Data Extraction → Validation
 ## Key Files
 
 ### Backend
-- `app/main.py` - FastAPI application with all endpoints and conversation handling
-- `app/core_logic.py` - Plan generation logic (NO LLM) - BMR, TDEE, meal/workout plans
-- `app/gemini_service.py` - LLM service for explanations and follow-up questions
-- `app/conversation_flow.py` - Manages conversation steps, validation, and field extraction
-- `app/conversation_summary.py` - Generates conversation summaries for LLM context
+- `app/main.py` - FastAPI application with LangChain agent integration and API endpoints
+- `app/langchain_service.py` - LangChain ReAct agent service with tools for data collection, validation, and plan generation
+- `app/core_logic.py` - Plan generation logic (NO LLM) - BMR, TDEE calculations, meal/workout plans
+- `app/conversation_flow.py` - Validation logic and step management used by LangChain tools
 - `app/models.py` - SQLAlchemy database models (User, UserPlan, Conversation, ConversationState)
 - `app/schemas.py` - Pydantic models for API request/response validation
 - `app/database.py` - PostgreSQL database connection and session management
@@ -179,15 +186,17 @@ User → Chat Interface → Conversation Flow → Data Extraction → Validation
 
 ## Important Notes
 
+- **LangChain Agent**: The entire conversation flow is orchestrated by a LangChain ReAct agent
+- **Tool-Based Design**: Data collection, validation, and plan generation are handled by LangChain tools
 - **Conversational Interface**: Data collection happens through natural conversation in a chat window, not forms
 - **Plan Display**: Plans are automatically displayed in table format within the chat interface when generated
 - **Core Logic**: Plan generation uses deterministic algorithms (BMR, TDEE calculations), NOT LLM
 - **LLM Usage**: Gemini AI is ONLY used for:
   - Plan explanations (why the plan is good for the user)
   - Follow-up question answers (with full plan context)
-  - Conversational responses during data collection
+  - Conversational responses during data collection (via LangChain agent)
 - **PostgreSQL**: All data is stored in PostgreSQL database (users, plans, conversations)
-- **Validation**: All inputs are validated in real-time (positive numbers, valid ranges, required fields)
+- **Validation**: All inputs are validated in real-time through LangChain tools (positive numbers, valid ranges, required fields)
 - **Plan Modifications**: Users can modify plans through natural conversation - LLM suggests alternatives based on the actual plan data
 
 ## License
